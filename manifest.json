@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Notes",
+  "author": "cxxyyl", 
+  "version": "0.2.5",
+  "description": "Exploring comments left behind in HTML, CSS and JS Files on a webpage.",
+  "icons":{
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",   
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Notes"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["notes.js"]
+  }],
+  "web_accessible_resources": [{
+    "resources": [
+      "notes.css", 
+      "fonts/junicode-italic-webfont.woff", 
+      "fonts/junicode-italic-webfont.woff2",
+      "fonts/junicode-regular-webfont.woff",
+      "fonts/junicode-regular-webfont.woff2"
+    ],
+    "matches": ["<all_urls>"]
+  }],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "notes@cxxyyl.xyz",
+      "strict_min_version": "109.0"
+    }
+  }
+}

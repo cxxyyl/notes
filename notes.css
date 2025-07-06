@@ -1,0 +1,840 @@
+
+@font-face {
+    font-family: 'junicodeitalic';
+    src: url('fonts/junicode-italic-webfont.woff2') format('woff2'),
+         url('fonts/junicode-italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'junicoderegular';
+    src: url('fonts/junicode-regular-webfont.woff2') format('woff2'),
+         url('fonts/junicode-regular-webfont.woff') format('woff');
+
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+
+
+
+
+:host {
+
+/* Colors */
+
+	--skyblue: oklch(79.224% 0.07056 258.618); 
+	--rustred: oklch(48.484% 0.15533 35.425);
+
+	--pumpkin: oklch(77.735% 0.17071 65.307);
+	--cozyGray: oklch(58.021% 0.03264 98.796);
+
+	--veridian: oklch(72.916% 0.15339 144.67);
+	--oceanDark: oklch(40.411% 0.04015 284.455);
+
+	--menu-color: oklch(34.458% 0.00004 271.152);
+
+
+	--font-large: 26px;
+	--font-regular: 20px;
+	--font-small: 16px;
+
+	--font-color-light: white;
+	
+
+	--font-book: junicoderegular; 
+	--font-italic: junicodeitalic;
+
+
+	--radius-s: 5px;
+	--radius-m: 8px;
+	--radius-l: 10px; 
+
+	--edgeBuffer: 8px;
+
+	--spacer-s: 5px; 
+	--spacer-m: 10px;
+	--spacer-l: 25px;
+	--layer-button-padding: 5px 20px;
+
+	--max-z-index: 2147483647;
+
+	interpolate-size: allow-keywords; 
+
+
+}
+
+
+/* General Typography */
+/* Use classes and id's so it does not interfere with the website */
+.overlay h1,
+.overlay h2,
+.overlay h3,
+.overlay h4,
+.overlay h5,
+.overlay h6,
+.overlay li,
+.overlay p,
+.overlay a, 
+.comment-marker p,
+.comment-marker a, 
+.comment-marker-content a{
+		font-weight: normal;
+		text-shadow: none !important;
+		word-spacing: 0 !important;
+ 		letter-spacing: -0.3px !important;
+		white-space: normal !important;
+		font-style: normal;
+		text-transform: none;
+		text-align: left;
+}
+
+
+
+
+/* Typographic Hover Effects */
+
+	.notes-finds-close:hover{
+		letter-spacing: -1.5px;
+		width: 160px;
+  		text-align: end;
+	}
+
+	.toggle-pre:hover, 
+	.notes-menu-button:hover{
+		letter-spacing: -.75px !important;
+	}
+
+	.notes-finds-close,
+	.toggle-pre {
+
+		/* notes-menu-button has a separate transition */
+		transition: letter-spacing 500ms ease;
+	}
+
+
+
+
+
+
+
+
+
+/* General Styling Rules and Classes */
+
+button{
+	border: none;
+	cursor: pointer;
+}
+
+
+
+/* Styling for the Notes Overlay */
+
+.mask-background{
+	/* Separation Layer between Notes Overlay and the Website */
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	/* width: calc(100vw - 8px);  needs the 8px or the blur effect will be buggy ??? */
+	width: 100%;
+	height: 100%;
+
+	z-index: 2147483646;
+
+	user-select: none;
+	pointer-events: none;
+	
+	transition: backdrop-filter 1s ease;
+}
+
+.mask-background.active{
+	backdrop-filter: blur(20px);
+	pointer-events: all;
+}
+
+
+
+
+.overlay {
+	/* overlay is the container for the whole Notes UI */
+	position: fixed;
+	width: 550px;
+	left: 50%;
+	bottom: var(--spacer-s);
+	transform: translateX(-50%);
+
+	z-index: 2147483647;
+
+	display: flex;
+	flex-direction: column-reverse;
+	gap: var(--spacer-m);
+
+	font-size: 1vh;
+
+	transition: width 500ms ease, background-color 500ms ease, border-radius 500ms ease, color 500ms ease, background-color 500ms ease;
+}
+
+.overlay.active{
+	width: calc(100vw - 140px); 
+	height: calc(100vh - 7px - 70px);
+	border-radius: var(--radius-l);
+	bottom: 25px;
+}
+
+
+
+
+
+
+/* Colors & Color Transitions for Notes Tab Change */
+
+
+/* HTML */
+.overlay:has(#notes-finds-html){
+	background-color: var(--rustred);
+	/* border: 1px solid var(--skyblue); */
+
+	*{
+		color: var(--skyblue); 
+	}
+	
+
+	.notes-finds-content{
+		scrollbar-color: var(--skyblue) transparent;
+	}
+
+	.comment-content-line, .divider{
+		border-color: var(--skyblue);
+	}
+}
+
+
+
+/* CSS */
+.overlay:has(#notes-finds-css){
+	background-color: var(--cozyGray);
+	/* border: 1px solid var(--pumpkin); */
+
+	*{
+		color: var(--pumpkin);
+	}
+
+	.notes-finds-content{
+		scrollbar-color: var(--pumpkin) transparent;
+	}
+
+	.comment-content-line, .divider{
+		border-color: var(--pumpkin);
+	}
+
+	.comment-filename-wrapper{
+		animation: manualTransitionCSS 0ms 500ms  ease forwards;
+	}
+}
+
+
+/* JS */
+.overlay:has(#notes-finds-js){
+	background-color: var(--oceanDark);
+	/* border: 1px solid var(--veridian); */
+
+	*{
+		color: var(--veridian);
+	}
+
+	.notes-finds-content{
+		scrollbar-color: var(--veridian) transparent;
+	}	
+
+	.comment-content-line, .divider{
+		border-color: var(--veridian);
+	}
+
+	.comment-filename-wrapper{
+		animation: manualTransitionJS 0ms 500ms ease forwards;
+		
+	}
+}
+
+
+/* Whish there was another way to do this in pure css :( */
+@keyframes manualTransitionJS {
+	from {background-color: transparent;}
+	to {background-color: var(--oceanDark);}
+}
+
+@keyframes manualTransitionCSS {
+	from {background-color: transparent;}
+	to {background-color: var(--cozyGray);}
+}
+
+
+
+
+
+
+
+
+
+
+
+.notes-menu {
+	/* Bottom Wrapper, which holds the "Notes on..." Buttons */
+	display: flex;
+	justify-content: space-between;
+
+	background-color: var(--menu-color);
+	border: .5px solid var(--font-color-light);
+	border-radius: var(--radius-m);
+	padding: var(--spacer-s);
+
+	transition: margin 500ms ease;
+
+}
+
+.divider{
+	border-left: 1px solid var(--font-color-light);
+}
+
+
+.notes-menu-button {
+	/* Notes on... Buttons */
+	margin: 0;
+	padding: 0 10px;
+
+	background-color: transparent;
+	color: var(--font-color-light);
+
+	font-family: var(--font-italic);
+	font-size: var(--font-regular);
+	font-weight: normal;
+	word-spacing: 0 !important;
+	letter-spacing: -0.3px !important;
+
+	transition: flex-grow 750ms ease, letter-spacing 500ms ease;
+}
+
+
+.overlay.overlay.active .notes-menu{
+	background-color: transparent;
+	border-color: transparent;
+	margin: 10px 40px;
+
+}
+
+.overlay:hover .notes-menu{
+	margin-bottom: 25px;
+}
+
+.overlay:has(#notes-finds-html)  #html{
+	flex-grow: 1;
+}
+
+.overlay:has(#notes-finds-css)  #css{
+	flex-grow: 1;
+}
+
+.overlay:has(#notes-finds-js)  #js{
+	flex-grow: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.notes-finds {
+	/* Wrapper for the top part of the overlay, witch holds the searchresults and UI*/
+	position: absolute;
+	top: 0;
+	width: calc(100% - 80px);
+	height: calc(100% - 100px);
+	margin: 20px 40px;
+
+	overflow: clip;
+
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+
+.notes-finds-header {
+	/* Header for 'Exploring Comments...' and closing button */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	h1, button{
+		margin: 0;
+
+		/* color: var(--font-color-light); */
+
+		font-size: var(--font-large);
+		font-family: var(--font-italic) ;
+	}
+
+	.notes-finds-close{
+		background-color: transparent;
+	}
+
+}
+
+
+
+.notes-finds-content {
+	/* Wrapper for all the displayed comments and additional information */
+	/* min-height: fit-content; */
+	margin: 120px 10% 0 5%;
+	overflow-y: auto;
+
+	cursor: auto;
+}
+
+
+
+.comment-counter,
+.searching-animation, 
+.no-comments {
+	/* Displays number of found comments */
+	position: absolute;
+	top: 96px;
+	margin: 0;
+
+	color: var(--font-color-light);
+
+	font-size: var(--font-regular);
+	font-family: var(--font-italic);
+}
+
+
+.comment-filename-wrapper{
+	position: sticky;
+	top: 0;
+	padding-bottom: 20px;
+
+	z-index: 1;
+	transition: all 500ms ease;
+}
+
+.comment-filename {
+
+	margin: 0;
+	
+	color: var(--font-color-light);
+	font-family: var(--font-italic);
+	font-size: var(--font-regular);
+
+	line-break: anywhere !important;
+	line-height: 20px;
+
+	cursor: pointer;
+
+
+	.comment-filename-url{
+		color: var(--font-color-light);
+
+		font-size: var(--font-small);
+		font-family: var(--font-italic);
+	}
+}
+
+
+.comment-list {
+	/* Wrapper that holds the list of all comments.  */
+	margin: 0 var(--spacer-m) 0 0;
+	padding: 0;
+
+	list-style: none;
+}
+
+#notes-finds-css .comment-list, 
+#notes-finds-js .comment-list
+	{
+		padding-left: 50px;
+	}
+
+.comment-item{
+	/* single list item, also a wrapper */
+	margin-top: 0;
+	padding-right: 10px;
+	margin-bottom: 90px;
+}
+
+.comment-item:last-of-type{
+	margin-bottom: 150px;
+}
+
+
+.comment-content-line{
+	border-bottom: 1px solid var(--font-color-light);
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0px 10px; 
+
+	.comment-line-number{
+		padding: 0;
+		margin: 0;
+
+		align-self: center; 
+
+		color: var(--font-color-light);
+		font-family: var(--font-italic);
+		font-size: var(--font-small);
+	}
+
+	.toggle-pre{
+		padding: 0;
+		margin:0;
+
+		background-color: transparent;
+
+		color: var(--font-color-light);
+		font-family: var(--font-italic);
+		font-size: var(--font-small);
+
+	}
+}
+
+
+.comment-content-line:has(.toggle-pre.active) ~ .comment-content,
+.marker-content-line:has(.toggle-pre.active) ~ .comment-marker-content{
+	font-family: monospace;
+	white-space: pre !important;
+	font-size: calc(var(--font-regular) * .7);
+	line-height: 1.2em;
+}
+
+
+
+
+
+.comment-content{
+	padding-top: 5px;
+	margin: 0 60px;
+
+	color: var(--font-color-light);
+	font-size: var(--font-regular);
+	font-family: var(--font-book);
+	line-height: 26px;
+
+	a{
+		text-decoration-thickness: 1px;
+		text-decoration-skip-ink: auto;
+		text-underline-offset: 2px;
+	}
+}
+
+/* Disable linebreak anywhere only in the HTML overlay, because the chance to have really long code is small?*/
+
+#notes-finds-html .comment-content,
+#notes-finds-css .comment-content, 
+#notes-finds-js .comment-content {
+	word-break: break-word;
+
+}
+
+
+
+
+
+
+/* Animation Styles */
+
+
+@keyframes dotAnimation {
+	0% { opacity: 0; }
+	70% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+.searching-animation .dot1 {
+	animation: dotAnimation 1.5s infinite;
+	animation-delay: 0ms;
+	opacity: 0;
+}
+
+.searching-animation .dot2 {
+	animation: dotAnimation 1.5s infinite;
+	animation-delay: 300ms;
+	opacity: 0;
+}
+
+.searching-animation .dot3 {
+	animation: dotAnimation 1.5s infinite;
+	animation-delay: 600ms;
+	opacity: 0;
+}
+
+.hidden {
+	opacity: 0;
+	transform: translateY(calc(var(--spacer-m) * 2));
+	transition: opacity 500ms ease-in-out, transform 500ms ease-in-out, background-color 500ms ease;
+}
+
+.comment-file:not(.hidden),
+.comment-item:not(.hidden) {
+	opacity: 1;
+	transform: translateY(0);
+	transition: opacity 500ms ease-in-out, transform 500ms ease-in-out, background-color 500ms ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Styling for all Comment Markers */
+
+/* Styling for Pre and Post Body Marker (wrapper) */
+.comment-marker-notBody {
+	position: fixed;
+	left: var(--spacer-s);
+	top: var(--spacer-s);
+	max-height: 75vh;
+	width: 15px;
+	max-width: calc( 100% - 28px - 5px);
+	overflow-y: auto;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacer-m);
+
+	background-color: var(--menu-color);
+	border: .5px white solid;
+	
+	border-radius: var(--radius-m);
+	padding: 5px 5px !important;
+
+	scrollbar-width: none;
+
+	z-index: 2147483645;
+
+	transition: width ease 700ms, padding ease 700ms;
+
+	scrollbar-color: white transparent;
+
+	a{
+		color: white;
+		text-decoration-thickness: 1px;
+		text-decoration-skip-ink: auto;
+		text-underline-offset: 2px;
+	}
+
+	.comment-marker-content{
+		padding-bottom: var(--spacer-l);
+		word-break: break-word;
+	}
+
+
+}
+
+.comment-marker-notBody:has(.display){
+	width: 85%;
+	padding: 10px 10px !important;
+
+	scrollbar-width:auto;
+
+}
+
+.comment-marker-notBody::-webkit-scrollbar { display: none; }
+
+
+
+.comment-marker-preBody:has(.display)::before {
+	content: "Comments before the Body";
+	font-weight: normal;
+	text-shadow: none !important;
+	word-spacing: 0 !important;
+	letter-spacing: -0.3px !important;
+	white-space: normal !important;
+	font-style: normal;
+	text-transform: none;
+	text-align: left;
+	color: white; 
+	font-family: var(--font-italic);
+	padding-bottom: var(--spacer-l);
+	font-size: var(--font-regular);
+	display: inline-block;
+}
+
+.comment-marker-afterBody:has(.display)::before {
+	content: "Comments after the Body";
+	font-weight: normal;
+	text-shadow: none !important;
+	word-spacing: 0 !important;
+	letter-spacing: -0.3px !important;
+	white-space: normal !important;
+	font-style: normal;
+	text-transform: none;
+	text-align: left;
+	color: white; 
+	font-family: var(--font-italic);
+	padding-bottom: var(--spacer-m);
+	font-size: var(--font-regular);
+	display: inline-block;
+}
+
+
+
+
+
+
+
+
+/* Styling for Comment Markers renderd in the body */
+.comment-marker-body{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	/* for .comment-marker-body left and top get set by the js */
+	pointer-events: none;
+}
+
+.comment-marker{
+	/* Wrapper for toggle and content bubble */
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+	pointer-events: none;
+}
+
+
+.comment-marker-toggle {
+	width: 15px;
+	height: 15px;
+
+	padding: 0;
+	margin: 0;
+
+	background-color: transparent;
+	color: var(--font-color-light);
+
+	cursor: pointer;
+
+	font-family: var(--font-italic);
+	font-size: 30px;
+	line-height: 22px;
+	text-align: left;
+	pointer-events: all;
+
+	-webkit-text-stroke: 2px var(--menu-color);
+	paint-order: stroke fill;
+
+	transition: color 500ms ease, -webkit-text-stroke-color 500ms ease;
+
+	.text-control{
+		display: inline-block;
+		pointer-events: none;
+		height: 15px;
+		transform: translateX(1.5px);
+	}
+}
+
+
+.comment-marker-toggle:hover,
+.comment-marker-toggle.display{
+	color: var(--menu-color);
+	-webkit-text-stroke: 2px var(--font-color-light);
+}
+
+.comment-marker-container{
+	display: none;
+	width: 100%;
+	padding: 5px;
+	border-radius: 5px;
+
+	background-color: var(--menu-color);
+	border: .5px solid white;
+
+	pointer-events: all;
+
+	a{
+		color: white;
+		text-decoration-thickness: 1px;
+		text-decoration-skip-ink: auto;
+		text-underline-offset: 2px;
+	}
+}
+
+@keyframes marker-expand {
+	from { width: 0%;}
+	to { width: 100%;}
+}
+
+.comment-marker-notBody .comment-marker-container{
+	border: none !important;
+}
+
+
+
+
+.marker-content-line{
+	border-bottom: 1px solid var(--font-color-light);
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0px 10px; 
+
+	.marker-line-number{
+		padding: 0;
+		margin: 0;
+
+		align-self: center; 
+
+		color: var(--font-color-light);
+		font-family: var(--font-italic);
+		font-size: var(--font-small);
+	}
+
+	.toggle-pre{
+		padding: 0;
+		margin:0;
+
+		background-color: transparent;
+
+		color: var(--font-color-light);
+		font-family: var(--font-italic);
+		font-size: var(--font-small);
+
+	}
+}
+
+.comment-marker-content {
+	padding-top: 5px;
+	margin: 0 60px;
+
+	color: var(--font-color-light);
+	font-size: var(--font-regular);
+	font-family: var(--font-book);
+	line-height: 26px;
+}
+
+
+.comment-marker-toggle.display + .comment-marker-container{
+	display: block;
+}

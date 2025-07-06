@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+
+			@font-face {
+				font-family: 'junicodeitalic';
+				src: url('fonts/junicode-italic-webfont.woff2') format('woff2'),
+					url('fonts/junicode-italic-webfont.woff') format('woff');
+				font-weight: normal;
+				font-style: normal;
+
+			}
+
+			@font-face {
+				font-family: 'junicoderegular';
+				src: url('fonts/junicode-regular-webfont.woff2') format('woff2'),
+					url('fonts/junicode-regular-webfont.woff') format('woff');
+
+				font-weight: normal;
+				font-style: normal;
+
+			}
+
+			:root{
+				/* Colors */
+				--menu-color: oklch(34.458% 0.00004 271.152);
+
+
+				--font-large: 26px;
+				--font-regular: 20px;
+				--font-small: 16px;
+
+				--font-color-light: white;
+
+
+				--font-book: junicoderegular; 
+				--font-italic: junicodeitalic;
+
+
+				--radius-s: 5px;
+				--radius-m: 8px;
+				--radius-l: 10px; 
+
+				--edgeBuffer: 8px;
+
+				--spacer-s: 5px; 
+				--spacer-m: 10px;
+				--spacer-l: 25px;
+				--layer-button-padding: 5px 20px;
+
+				--max-z-index: 2147483647;
+
+				interpolate-size: allow-keywords; 
+
+			}
+
+
+
+
+			body {
+				width: 300px;
+				padding: var(--spacer-m);
+
+				color: white;
+				background-color: var(--menu-color);
+			
+				/* Font */
+				font-family: var(--font-italic);
+				font-weight: normal;
+				text-shadow: none !important;
+				word-spacing: 0 !important;
+				letter-spacing: -0.3px !important;
+				white-space: normal !important;
+				font-style: normal;
+				text-transform: none;
+				text-align: left;
+			
+
+			}
+			
+			.title {
+				font-size: var(--font-large);
+				margin-bottom: var(--spacer-m);
+			}
+			
+			.control-group {
+				font-size: var(--font-regular);
+				margin-bottom: var(--spacer-m);
+			}
+			
+			.toggle-control {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: var(--spacer-m);
+
+			}
+			
+			
+			.toggle-switch {
+				position: relative;
+				display: inline-block;
+				width: 40px;
+				height: 20px;
+			}
+			
+			.toggle-switch input {
+				opacity: 0;
+				width: 0;
+				height: 0;
+			}
+			
+			.slider {
+				position: absolute;
+				cursor: pointer;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: transparent;
+				border: .5px solid white;
+				transition: .4s;
+				border-radius: 20px;
+			}
+			
+			.slider:before {
+				position: absolute;
+				content: "";
+				height: 16px;
+				width: 16px;
+				left: 2px;
+				bottom: 2px;
+				background-color: white;
+				transition: .4s;
+				border-radius: 50%;
+			}
+			
+			input:checked + .slider {
+				background-color: gray;
+			}
+			
+			input:checked + .slider:before {
+				transform: translateX(20px);
+			}
+
+			.tips{
+			
+
+			p{
+				margin: 0;
+
+				margin-bottom: var(--spacer-m);
+
+			}
+
+			p:last-of-type{
+				margin-bottom: 0;
+			}
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<h1 class="title">Notes v.0.25</h1>
+		<hr>
+		<div class="control-group">
+			<div class="toggle-control">
+			<span>Notes Reader</span>
+			<label class="toggle-switch">
+				<input type="checkbox" id="toggle-menu">
+				<span class="slider"></span>
+			</label>
+			</div>
+		
+			<div class="toggle-control">
+			<span>Comment Marker</span>
+			<label class="toggle-switch">
+				<input type="checkbox" id="toggle-indicators">
+				<span class="slider"></span>
+			</label>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="tips">
+			<p>The Notes Reader opens an overlay that shows you all comments left 
+			on the current webpage, as well as in all other linked Javascript and CSS files.</p>
+			<p>The comment markers show an approximation of where a html comment was left on the webpage.</p>
+			<p>To access comments in their original context you can open the Developer Tools or View Source.</p>
+	
+		</div>
+
+		<script src="popup.js"></script>
+	</body>
+</html>
