@@ -1,0 +1,5 @@
+# Notes v0.25
+
+“Notes” is a browser extension that helps explore all the notes or comments that were left behind in the code which makes up a website. Understanding a website as more than the designed layer you interact with, but also a written document performed by machines. Documents that are not detached from the person who writes them, while they supposedly float in a void to perform actions. This tool exists for you to go on the same journey, exploring notes, artifacts, and other quirks of web-making—to cherish the personal aspect of leaving marks, notes or thoughts in the margins of code for others. And maybe, if you‘re not already doing it, encourage you to peek behind the curtain of what makes a website run. 
+
+Notes has two modes of use. With the reader you're able to look through all HTML, CSS, and Javascript comments. The marker mode only displays html comments, but it positions them on the same height as the closest element in the HTML Code, creating a visual relationship between the comment and the rendered website.
