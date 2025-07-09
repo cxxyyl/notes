@@ -18,5 +18,7 @@ The Comment Markers refer specifically to HTML comments only and are an alternat
 ## Installation
 You can download the plugin here and manually install it. Here are two short guides on how to do it for [Firefox](https://support.mozilla.org/en-US/kb/find-and-install-add-ons-add-features-to-firefox) and for [Chrome](https://developer.chrome.com/docs/extensions/how-to/distribute/install-extensions). 
 
+Notes is also available in the [Chrome Store](https://chromewebstore.google.com/detail/notes/cmejmjdeanhikibpmonbgckimjbgjmkd) and [Firefox Add-on Store](https://addons.mozilla.org/de/firefox/addon/notes-on-comments/)
+
 ## License
 GPL-3.0 license
